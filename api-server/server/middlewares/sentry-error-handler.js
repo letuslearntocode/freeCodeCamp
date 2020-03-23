@@ -1,5 +1,11 @@
-import { Handlers } from '@sentry/node';
+import { Handlers, captureException } from '@sentry/node';
 import { sentry } from '../../../config/secrets';
+
+export function reportError(err) {
+  return sentry.dns === 'dsn_from_sentry_dashboard'
+    ? console.error(err)
+    : captureException(err);
+}
 
 export default function sentryErrorHandler() {
   return sentry.dns === 'dsn_from_sentry_dashboard'
